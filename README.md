@@ -25,3 +25,6 @@ It might be possible to optimize and cram this into 8MB flash board.
 3. `cmake ..`
 4. If `cmake` run without issue, you can proceed to build `make -j 8`
 5. After `make` finish build, flash the `.uf2` file to your pico.
+
+# Link
+https://youtu.be/89mWeVJCcXk
