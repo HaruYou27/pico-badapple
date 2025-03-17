@@ -61,7 +61,7 @@ private:
 		SCREEN_HEIGHT = 64,
 		PAGE_SIZE = 8,
 		MAX_BUFFER_SIZE = SCREEN_WIDTH * SCREEN_HEIGHT / PAGE_SIZE + 1,
-		BAUDRATE = 400 * 1000,
+		BAUDRATE = 310 * 1000,
 	};
     i2c_inst_t *i2c;
 

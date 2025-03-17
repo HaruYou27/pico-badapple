@@ -23,9 +23,8 @@ int SSD1306::clear_screen()
 int SSD1306::draw_image_fullscreen(const uint8_t *data, int width, int pages, bool invert)
 {
 	uint8_t *buffer = new uint8_t[MAX_BUFFER_SIZE] {CONTROL_DATA};
-	int offset = (SCREEN_WIDTH - width) / 2;
-
-	if (!offset)
+	
+	if (width == SCREEN_WIDTH)
 	{
 		size_t size = width * pages;
 		if (invert)
@@ -45,13 +44,14 @@ int SSD1306::draw_image_fullscreen(const uint8_t *data, int width, int pages, bo
 	}
 
 	uint8_t *begin = buffer;
-	offset += 1;
+	int offset = (SCREEN_WIDTH - width) / 2 + 1;
 	for (int page = 1; page <= pages; page++)
 	{
+		uint8_t *end = buffer + SCREEN_WIDTH;
+		buffer += offset;
+
 		if (invert)
 		{
-			uint8_t *end = buffer + SCREEN_WIDTH;
-			buffer += offset;
 			for (int index = 0; index < width; index++)
 			{
 				*buffer = 0xff - *data;
@@ -60,9 +60,10 @@ int SSD1306::draw_image_fullscreen(const uint8_t *data, int width, int pages, bo
 			buffer = end;
 			continue;
 		}
-		memcpy(buffer + offset, data, width);
+
+		memcpy(buffer, data, width);
 		data += width;
-		buffer += SCREEN_WIDTH;
+		buffer = end;
 	}
 	int error = i2c_write(begin, MAX_BUFFER_SIZE);
 	delete[] begin;
@@ -198,7 +199,7 @@ SSD1306::SSD1306(uint sda, uint scl, i2c_inst_t *instance_i2c)
 		DISPLAY_ALL_ON_RESUME,
 		NORMAL_DISPLAY,
 		SET_MEMORY_MODE,
-		0, // Horizontal addressing mode
+		0, // Vertical addressing mode
 		2, // column address = 2
 		0x10,
 		0x40, // display start line = 0

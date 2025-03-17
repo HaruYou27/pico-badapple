@@ -8,7 +8,7 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 
 #include "ssd1306_driver.hpp"
-#include "bad_apple.h"
+#include "badapple.h"
 
 int main()
 {
@@ -18,15 +18,18 @@ int main()
 
     SSD1306 *oled = new SSD1306(16, 17, i2c0);
 
-    bool tick = true;
     while (true)
     {
         oled->print_overwrite("This is a fanwork of\nTouhou Project by ZUN.\nBad Apple!!-Alstroemeria Records\nRaspberry Pi pico 16MB flash\nSSD1306 I2C OLED 128x64\nFont by Moonbench.xyz\nHaruYou27");
         sleep_ms(5000);
-        for (int index = 0; index < BAD_APPLE_FRAME; index++)
+        
+        for (int index = 0; index < BADAPPLE_FRAME; index++)
         {
-            tick = !tick;
-            oled->draw_image_fullscreen(BAD_APPLE_DATA[index], BAD_APPLE_WIDTH, BAD_APPLE_PAGE, tick);
+            oled->draw_image_fullscreen(BADAPPLE_DATA[index], BADAPPLE_WIDTH, BADAPPLE_PAGE);
+        }
+        for (int index = 0; index < BADAPPLE_FRAME; index++)
+        {
+            oled->draw_image_fullscreen(BADAPPLE_DATA[index], BADAPPLE_WIDTH, BADAPPLE_PAGE, true);
         }
     }
 }
