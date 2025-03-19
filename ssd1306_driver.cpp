@@ -58,7 +58,6 @@ int SSD1306::draw_image_fullscreen(const uint8_t *data, int width, int pages, bo
 				++buffer;
 				++data;
 			}
-			data += width;
 			buffer = end;
 			continue;
 		}
